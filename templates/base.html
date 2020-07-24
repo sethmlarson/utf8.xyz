@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head><title>{% block title %}{% endblock %}</title>
+<style>
+html, body {font-family: "Courier New","Lucida Console",Courier,monospace; font-size: 1.3em; color: #212529;}
+.body {padding-left: 10%; max-width: 80%;}
+h1 { font-size: 1.8em; }
+h2 { font-size: 1.3em; }
+a, a:visited, a:hover, a:active {
+  color: inherit;
+}
+
+</style>
+</head>
+<body>
+<div class="body">
+{% block body %}{% endblock %}
+</div>
+</body>
+</html>

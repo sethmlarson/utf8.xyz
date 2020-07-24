@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}utf8.xyz{% endblock %}
+{% block body %}
+<h1>utf8.xyz</h1>
+<p>A quick web app for fetching Unicode characters without extra fluff</p>
+<h2>Features</h2>
+<ul>
+    <li>Use the URL to build queries, will return matching results if more than one</li>
+    <li>Click anywhere on a character page to copy quickly</li>
+    <li>Accessible from command line, try <code>$ curl -L utf8.xyz/en-dash</code></li>
+    <li>Short, memorable, and bookmarkable URLs without having to go to Google</li>
+    <li>No ads, quick load times, small page sizes</li>
+    <li>Works without JavaScript if you don't want the automatic clipboard feature</li>
+    <li><a href="https://github.com/sethmlarson/utf8.xyz">Open Source</a> so you read the code and can suggest improvements</li>
+</ul>
+<h2>Example Characters, Categories and Searches</h2>
+<ul>
+    <li><a href="/en-dash">En-Dash</a> (–)</li>
+    <li><a href="/em-dash">Em-Dash</a> (—)</li>
+    <li><a href="/letter-a-with">Letter A With...</a> (á, ӑ, ӓ)</li>
+    <li><a href="/arrows">Arrows</a> (→, ←, ⟶, ↔)</li>
+    <li><a href="/currency">Currency Signs</a> (£, ¥)</li>
+</ul>
+<h3>My workflow before utf8.xyz</h3>
+<ul>
+    <li>Google the name of the unicode character</li>
+    <li>Wait for Google to load results</li>
+    <li>Select a website from Google</li>
+    <li>Wait for that website to load</li>
+    <li>Find the character somewhere in the page if it's not obvious</li>
+    <li>Copy the character and paste it.</li>
+    <li>Sometimes the website potentially injects additional text into the clipboard <b>(ugh)</b> fix those issues if any</li>
+</ul>
+<h3>My workflow after utf8.xyz</h3>
+<ul>
+    <li>Call <code>$ curl -L utf8.xyz/en-dash</code> in my terminal.</li>
+    <li>Copy and paste the character where I need it.</li>
+    <li>That's it.</li>
+</ul>
+<h2>Why did you build this?</h2>
+<p>I built this service for myself and figured others would also find it useful</p>
+<h2>Links</h2>
+<ul>
+    <li><a href="https://github.com/sethmlarson/utf8.xyz">Source Code</a></li>
+    <li><a href="https://github.com/sethmlarson/utf8.xyz">License</a> (Apache-2.0)</li>
+    <li><a href="https://sethmlarson.dev">Author</a></li>
+</ul>
+{% endblock %}
