@@ -22,7 +22,6 @@ db.execute(
 CREATE TABLE chars (
     name STRING PRIMARY KEY,
     ordinal INTEGER UNIQUE,
-    long_name STRING,
     category STRING DEFAULT ''
 );
 """
@@ -32,7 +31,6 @@ with open("utf8.ssv") as f:
     reader = csv.reader(f, delimiter=";")
     for row in reader:
         ordinal = int(row[0], 16)
-        long_name = normalize(row[1])
         name = row[1].lower().replace(" ", "-")
         if "<" in name:  # Skip control characters
             continue
@@ -47,12 +45,12 @@ with open("utf8.ssv") as f:
         db.execute(
             """
             INSERT INTO chars (
-                name, ordinal, long_name, category
+                name, ordinal, category
             ) VALUES (
-                ?, ?, ?, ?
+                ?, ?, ?
             )
         """,
-            (name, ordinal, long_name, category),
+            (name, ordinal, category),
         )
 
 db.commit()

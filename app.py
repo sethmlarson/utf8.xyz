@@ -14,7 +14,11 @@ def get_db():
 
 
 def normalize(x):
-    return re.sub("[^a-zA-Z0-9]+", " ", x).lower()
+    return re.sub("[^a-zA-Z0-9]+", "-", x).lower()
+
+
+def title(x):
+    return re.sub("[^a-zA-Z0-9]+", " ", x).title()
 
 
 def ord_to_hex(x):
@@ -75,14 +79,14 @@ def category_or_char(char):
             (char,),
         )
 
-    db.execute("SELECT long_name, ordinal FROM chars WHERE name = ?;", (char,))
+    db.execute("SELECT name, ordinal FROM chars WHERE name = ?;", (char,))
     try:
-        long_name, char_ord = db.fetchone()
+        name, char_ord = db.fetchone()
     except Exception:
         return render_list_of_chars(
             "%r" % char,
             db,
-            "SELECT name, ordinal FROM chars WHERE long_name LIKE ? LIMIT 100;",
+            "SELECT name, ordinal FROM chars WHERE name LIKE ? LIMIT 100;",
             (f"%{normalize(char)}%",),
         )
 
@@ -93,6 +97,6 @@ def category_or_char(char):
     return render_template(
         "char.html",
         char_text=chr(char_ord),
-        char_long_name=long_name.title(),
+        char_long_name=title(name),
         char_ordinal=ord_to_hex(char_ord),
     )
