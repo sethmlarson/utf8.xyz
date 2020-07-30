@@ -28,6 +28,10 @@ def ord_to_hex(x):
     return x.zfill(8)
 
 
+def encode_to_hex_bytes(char, encoding):
+    return "".join(f"\\x{hex(x)[2:]}" for x in char.encode(encoding))
+
+
 @app.after_request
 def cache_control_header(response: Response):
     response.headers["vary"] = "user-agent"
@@ -42,10 +46,10 @@ def index():
 
 @app.errorhandler(Exception)
 def on_error(e):
-    status_code = getattr(e, "status", 500)
+    status_code = getattr(e, "code", 500)
     if "curl" in request.headers.get("user-agent", ""):
-        return f"HTTP {status_code} - That's an error :(\n"
-    return render_template("error.html", status_code=status_code)
+        return f"HTTP {status_code} - That's an error :(\n", status_code
+    return render_template("error.html", status_code=status_code), status_code
 
 
 def render_list_of_chars(title, db, sql, params):
@@ -94,9 +98,20 @@ def category_or_char(char):
     if "curl" in request.headers.get("user-agent", ""):
         return chr(char_ord)
 
+    code_point_hex = ord_to_hex(char_ord)
+    char_chr = chr(char_ord)
+
+    def backslashed(x):
+        return x.replace("\\", "\\\\").replace('"', '\\"')
+
     return render_template(
         "char.html",
-        char_text=chr(char_ord),
+        char_text=char_chr,
+        char_html=f"&#{char_ord};",
+        char_python=f"\\{'U' if len(code_point_hex) > 4 else 'u'}{code_point_hex}",
         char_long_name=title(name),
-        char_ordinal=ord_to_hex(char_ord),
+        char_code_point=f"U+{code_point_hex}",
+        char_utf8=encode_to_hex_bytes(char_chr, "utf-8"),
+        char_utf16=encode_to_hex_bytes(char_chr, "utf-16"),
+        backslashed=backslashed,
     )

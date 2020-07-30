@@ -4,23 +4,28 @@
 <style>h1 {font-size: 5em;}</style>
 <center>
     <h1>{{ char_text }}</h1>
-    <small><b>{{ char_long_name }} (U+{{ char_ordinal }})</b></small><br><br>
-    <small id="help">Click anywhere to copy</small>
-</center>
+    <b>{{ char_long_name }}</b></small><br>
+    <div style="text-align: left; margin-left: 20%; width: 60%;">
+    <ul>
+        <li><button class="copyChar">Copy</button> Character: {{ char_text }}</li>
+        <li><button class="copyCodePoint">Copy</button> Code Point: {{ char_code_point }}</li>
+        <li><button class="copyHtml">Copy</button> HTML: {{ char_html }} </li>
+        <li><button class="copyPython">Copy</button> Python: {{ char_python }}</li>
+        <li><button class="copyUtf8">Copy</button> UTF-8: {{ char_utf8 }}</li>
+        <li><button class="copyUtf16">Copy</button> UTF-16: {{ char_utf16 }}</li>
+    </ul>
+    </div>
+    </center>
 <script>
 function fallbackCopyTextToClipboard(text) {
   var textArea = document.createElement("textarea");
   textArea.value = text;
-
-  // Avoid scrolling to bottom
   textArea.style.top = "0";
   textArea.style.left = "0";
   textArea.style.position = "fixed";
-
   document.body.appendChild(textArea);
   textArea.focus();
   textArea.select();
-
   try {
     var successful = document.execCommand('copy');
     var msg = successful ? 'successful' : 'unsuccessful';
@@ -39,10 +44,19 @@ function copyTextToClipboard(text) {
   });
 }
 
-document.getElementsByClassName('body')[0]
-.addEventListener('click', function (event) {
-    copyTextToClipboard("{{ char_text }}");
-    document.getElementById('help').innerHTML = "Copied";
-});
+function addCopyTextToButton(className, text) {
+    document.getElementsByClassName(className)[0]
+    .addEventListener('click', function (event) {
+        copyTextToClipboard(text);
+        document.getElementsByClassName(className)[0].innerHTML = "Copied";
+    });
+}
+
+addCopyTextToButton("copyChar", "{{ backslashed(char_text)|safe }}");
+addCopyTextToButton("copyCodePoint", "{{ char_code_point }}");
+addCopyTextToButton("copyHtml", "{{ char_html|safe }}");
+addCopyTextToButton("copyPython", "{{ backslashed(char_python) }}");
+addCopyTextToButton("copyUtf8", "{{ backslashed(char_utf8) }}");
+addCopyTextToButton("copyUtf16", "{{ backslashed(char_utf16) }}");
 </script>
 {% endblock %}
