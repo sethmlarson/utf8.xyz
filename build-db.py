@@ -2,9 +2,12 @@ import re
 import sqlite3
 import csv
 import os
+import io
+import urllib3
 
 currency = []
 arrows = []
+unicode_version = "14.0.0"
 
 
 def normalize(x):
@@ -16,6 +19,7 @@ try:
 except Exception:
     pass
 
+http = urllib3.PoolManager()
 db = sqlite3.connect("utf8.db")
 db.execute(
     """
@@ -27,31 +31,35 @@ CREATE TABLE chars (
 """
 )
 
-with open("utf8.ssv") as f:
-    reader = csv.reader(f, delimiter=";")
-    for row in reader:
-        ordinal = int(row[0], 16)
-        name = row[1].lower().replace(" ", "-")
-        if "<" in name:  # Skip control characters
-            continue
-        category = None
-        group = row[2]
+unicodedata = http.request(
+    "GET",
+    f"https://www.unicode.org/Public/{unicode_version}/ucd/UnicodeData.txt",
+    preload_content=False,
+)
+unicodedata.auto_close = False
+reader = csv.reader(io.TextIOWrapper(unicodedata, encoding="utf-8"), delimiter=";")
+for row in reader:
+    ordinal = int(row[0], 16)
+    name = row[1].lower().replace(" ", "-")
+    if "<" in name:  # Skip control characters
+        continue
+    category = None
+    group = row[2]
 
-        if group == "Sc":
-            category = "currency"
-        if "arrow" in name:
-            category = "arrows"
-
-        db.execute(
-            """
-            INSERT INTO chars (
-                name, ordinal, category
-            ) VALUES (
-                ?, ?, ?
-            )
-        """,
-            (name, ordinal, category),
+    if group == "Sc":
+        category = "currency"
+    if "arrow" in name:
+        category = "arrows"
+    db.execute(
+        """
+        INSERT INTO chars (
+            name, ordinal, category
+        ) VALUES (
+            ?, ?, ?
         )
+    """,
+        (name, ordinal, category),
+    )
 
 db.commit()
 db.close()
