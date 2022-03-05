@@ -1,6 +1,6 @@
 import re
 import sqlite3
-from flask import Flask, Response, render_template, g, request, abort
+from flask import Flask, Response, render_template, g, request, abort, send_file
 
 app = Flask(__name__)
 categories = ["arrows", "currency"]

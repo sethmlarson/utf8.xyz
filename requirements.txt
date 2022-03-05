@@ -1,16 +1,16 @@
-click==7.1.2
+click==8.0.4
     # via flask
-flask==1.1.2
+flask==2.0.3
     # via -r requirements.in
-gunicorn==20.0.4
+gunicorn==20.1.0
     # via -r requirements.in
-itsdangerous==1.1.0
+itsdangerous==2.1.0
     # via flask
-jinja2==2.11.2
+jinja2==3.0.3
     # via flask
-markupsafe==1.1.1
+markupsafe==2.1.0
     # via jinja2
-werkzeug==1.0.1
+werkzeug==2.0.3
     # via flask
 
 # The following packages are considered to be unsafe in a requirements file:
