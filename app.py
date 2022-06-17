@@ -1,6 +1,6 @@
 import re
 import sqlite3
-from flask import Flask, Response, render_template, g, request, abort, send_file
+from flask import Flask, Response, render_template, g, request, abort, send_file, redirect
 
 app = Flask(__name__)
 categories = ["arrows", "currency"]
@@ -82,6 +82,16 @@ def category_or_char(char):
             "SELECT name, ordinal FROM chars WHERE category = ?;",
             (char,),
         )
+
+    # Redirect single characters to their names
+    if len(char) == 1:
+        db.execute("SELECT name, ordinal FROM chars WHERE ordinal = ?;", (ord(char),))
+        try:
+            name, char_ord = db.fetchone()
+        except Exception:
+            pass
+        else:
+            return redirect(f"/{name}")
 
     db.execute("SELECT name, ordinal FROM chars WHERE name = ?;", (char,))
     try:
