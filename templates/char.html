@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block title %}{{ char_long_name }} - UTF8.XYZ{% endblock %}
 {% block body %}
-<style>h1 {font-size: 5em;}</style>
+<style>h1 {font-size: 5em; margin: 0; padding: 0.67em; cursor: pointer;}</style>
 <center>
-    <h1>{{ char_text }}</h1>
+    <h1 id="char">{{ char_text }}</h1>
     <b>{{ char_long_name }}</b></small><br>
     <div style="text-align: left; margin-left: 20%; width: 60%;">
     <ul>
@@ -58,5 +58,9 @@ addCopyTextToButton("copyHtml", "{{ char_html|safe }}");
 addCopyTextToButton("copyPython", "{{ backslashed(char_python) }}");
 addCopyTextToButton("copyUtf8", "{{ backslashed(char_utf8) }}");
 addCopyTextToButton("copyUtf16", "{{ backslashed(char_utf16) }}");
+
+document.getElementById("char").addEventListener('click', function (event) {
+    copyTextToClipboard("{{ backslashed(char_text)|safe }}");
+});
 </script>
 {% endblock %}
