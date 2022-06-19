@@ -11,6 +11,7 @@
         <li><button class="copyCodePoint">Copy</button> Code Point: {{ char_code_point }}</li>
         <li><button class="copyHtml">Copy</button> HTML: {{ char_html }} </li>
         <li><button class="copyPython">Copy</button> Python: {{ char_python }}</li>
+        <li><button class="copyPython2">Copy</button> Python: {{ char_python2 }}</li>
         <li><button class="copyUtf8">Copy</button> UTF-8: {{ char_utf8 }}</li>
         <li><button class="copyUtf16">Copy</button> UTF-16: {{ char_utf16 }}</li>
     </ul>
@@ -56,6 +57,7 @@ addCopyTextToButton("copyChar", "{{ backslashed(char_text)|safe }}");
 addCopyTextToButton("copyCodePoint", "{{ char_code_point }}");
 addCopyTextToButton("copyHtml", "{{ char_html|safe }}");
 addCopyTextToButton("copyPython", "{{ backslashed(char_python) }}");
+addCopyTextToButton("copyPython2", "{{ backslashed(char_python2) }}");
 addCopyTextToButton("copyUtf8", "{{ backslashed(char_utf8) }}");
 addCopyTextToButton("copyUtf16", "{{ backslashed(char_utf16) }}");
 </script>
