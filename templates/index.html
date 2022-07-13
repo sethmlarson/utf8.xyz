@@ -3,6 +3,12 @@
 {% block body %}
 <h1>UTF8.XYZ</h1>
 <p>A quick web app for fetching Unicode characters without extra fluff</p>
+
+<form method="post">
+    <input type="text" name="char" placeholder="Search for a character" autofocus>
+    <button type="submit">Lookup character</button>
+</form>
+
 <h2>Features</h2>
 <ul>
     <li>Use the URL to build queries, will return matching results if more than one</li>

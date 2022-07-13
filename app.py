@@ -7,7 +7,6 @@ from flask import (
     g,
     request,
     abort,
-    send_file,
     redirect,
     url_for,
 )
@@ -49,8 +48,10 @@ def cache_control_header(response: Response):
     return response
 
 
-@app.route("/", methods=["GET"])
+@app.route("/", methods=["GET", "POST"])
 def index():
+    if request.method == "POST":
+        return redirect(url_for("category_or_char", char=request.form.get("char")))
     return render_template("index.html")
 
 
