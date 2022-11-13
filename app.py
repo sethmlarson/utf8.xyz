@@ -13,6 +13,15 @@ from flask import (
 
 app = Flask(__name__)
 categories = ["arrows", "currency"]
+aliases = {
+    "zwj": ("zero-width-joiner", "Zero-width joiner"),
+    "zwnbs": ("zero-width-no-break-space", "Zero-width non-breaking space"),
+    "nbs": ("zero-width-no-break-space", "Zero width non-breaking space"),
+    "zwnj": ("zero-width-non-joiner", "Zero-width non-joiner"),
+    "zws": ("zero-width-space", "Zero-width space"),
+    "nd": ("en-dash", "–"),
+    "md": ("em-dash", "—"),
+}
 
 
 def get_db():
@@ -52,7 +61,7 @@ def cache_control_header(response: Response):
 def index():
     if request.method == "POST":
         return redirect(url_for("category_or_char", char=request.form.get("char")))
-    return render_template("index.html")
+    return render_template("index.html", aliases=aliases)
 
 
 @app.errorhandler(Exception)
@@ -84,6 +93,10 @@ def render_list_of_chars(title, db, sql, params):
 
 @app.route("/<string:char>")
 def category_or_char(char):
+    # Resolve aliases
+    if char in aliases:
+        return redirect(url_for("category_or_char", char=aliases[char][0]), code=307)
+
     db = get_db().cursor()
 
     if char in categories:

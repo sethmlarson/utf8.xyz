@@ -5,10 +5,20 @@
 <p>A quick web app for fetching Unicode characters without extra fluff</p>
 
 <form method="post">
-    <input type="text" name="char" placeholder="Search for a character" autofocus>
-    <button type="submit">Lookup character</button>
+    <input type="text" name="char" placeholder="What are you looking for?" autofocus>
+    <button type="submit">Search</button>
 </form>
 
+<h2>Example queries and aliases for common characters</h2>
+<ul>
+    <li><a href="/latin-small-letter-a"><code>"utf8.xyz/latin-small-letter-a"</code></a> ⟶ a</li>
+    <li><a href="/letter-a-with"><code>"utf8.xyz/letter-a-with"</code></a> ⟶ [á, ӑ, ӓ]</li>
+    {% for alias_from, (alias_to, character) in aliases.items() %}
+    <li><a href="/{{ alias_from }}"><code>"utf8.xyz/{{ alias_from }}"</code></a> ⟶ {{ character }}</li>
+    {% endfor %}
+    <li><a href="/arrows"><code>"utf8.xyz/arrows"</code></a> ⟶ [→, ←, ⟶, ↔, ...]</li>
+    <li><a href="/currency"><code>"utf8.xyz/currency"</code></a> ⟶ [£, ¥, ...]</li>
+</ul>
 <h2>Features</h2>
 <ul>
     <li>Use the URL to build queries, will return matching results if more than one</li>
@@ -17,16 +27,10 @@
     <li>Short, memorable, and bookmarkable URLs without having to go to Google</li>
     <li>No ads, quick load times, small page sizes</li>
     <li>Works without JavaScript if you don't want the automatic clipboard feature</li>
-    <li><a href="https://github.com/sethmlarson/utf8.xyz">Open Source</a> so you can read the code and can suggest improvements</li>
+    <li><a href="https://github.com/sethmlarson/utf8.xyz">The code is open source</a> so you can read the code and can suggest improvements</li>
 </ul>
-<h2>Example Characters, Categories and Searches</h2>
-<ul>
-    <li><a href="/en-dash">En-Dash</a> (–)</li>
-    <li><a href="/em-dash">Em-Dash</a> (—)</li>
-    <li><a href="/letter-a-with">Letter A With...</a> (á, ӑ, ӓ)</li>
-    <li><a href="/arrows">Arrows</a> (→, ←, ⟶, ↔)</li>
-    <li><a href="/currency">Currency Signs</a> (£, ¥)</li>
-</ul>
+<h2>Why did you build this?</h2>
+<p>I built this service for myself and figured others would also find it useful. My biggest pet-peeve was how unfriendly similar sites are on mobile.</p>
 <h3>My workflow before utf8.xyz</h3>
 <ul>
     <li>Google the name of the unicode character</li>
@@ -39,12 +43,11 @@
 </ul>
 <h3>My workflow after utf8.xyz</h3>
 <ul>
-    <li>Call <code>$ curl -L utf8.xyz/en-dash</code> in my terminal.</li>
+    <li>If in the terminal type: <code>$ curl -L utf8.xyz/en-dash</code></li>
+    <li>If on mobile search in the URL <code>utf8.xyz/nd</code></li>
     <li>Copy and paste the character where I need it.</li>
-    <li>That's it.</li>
+    <li><strong>That's it!</strong></li>
 </ul>
-<h2>Why did you build this?</h2>
-<p>I built this service for myself and figured others would also find it useful</p>
 <h2>Links</h2>
 <ul>
     <li><a href="https://github.com/sethmlarson/utf8.xyz">Source Code</a></li>

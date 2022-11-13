@@ -7,7 +7,7 @@ import urllib3
 
 currency = []
 arrows = []
-unicode_version = "14.0.0"
+unicode_version = "15.0.0"
 
 
 def normalize(x):
