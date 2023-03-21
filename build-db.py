@@ -7,7 +7,6 @@ import urllib3
 
 currency = []
 arrows = []
-unicode_version = "15.0.0"
 
 
 def normalize(x):
@@ -33,7 +32,7 @@ CREATE TABLE chars (
 
 unicodedata = http.request(
     "GET",
-    f"https://www.unicode.org/Public/{unicode_version}/ucd/UnicodeData.txt",
+    f"https://www.unicode.org/Public/draft/UCD/ucd/UnicodeData.txt",
     preload_content=False,
 )
 unicodedata.auto_close = False
