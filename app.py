@@ -2,6 +2,7 @@ import re
 import sqlite3
 from flask import (
     Flask,
+    Request,
     Response,
     render_template,
     g,
@@ -50,6 +51,12 @@ def encode_to_hex_bytes(char, encoding):
     return "".join(f"\\x{hex(x)[2:]}" for x in char.encode(encoding))
 
 
+def is_cli_tool(request: Request) -> bool:
+    """Is the User Agent from a CLI tool?"""
+    cli_user_agents = ["curl", "HTTPie"]
+    return any(x in request.user_agent.string for x in cli_user_agents)
+
+
 @app.after_request
 def cache_control_header(response: Response):
     response.headers["vary"] = "user-agent"
@@ -67,7 +74,7 @@ def index():
 @app.errorhandler(Exception)
 def on_error(e):
     status_code = getattr(e, "code", 500)
-    if "curl" in request.headers.get("user-agent", ""):
+    if is_cli_tool(request):
         return f"HTTP {status_code} - That's an error :(\n", status_code
     return render_template("error.html", status_code=status_code), status_code
 
@@ -82,7 +89,7 @@ def render_list_of_chars(title, db, sql, params):
         (name, chr(ordinal)) for name, ordinal in sorted(chars, key=lambda x: x[0])
     ]
 
-    if "curl" in request.headers.get("user-agent", ""):
+    if is_cli_tool(request):
         lines = [title, "=" * len(title)]
         lines.extend([f" - {text} ({name})" for name, text in chars])
         lines.append("")
@@ -128,8 +135,7 @@ def category_or_char(char):
             (f"%{normalize(char)}%",),
         )
 
-    # Short-circuit for curl
-    if "curl" in request.headers.get("user-agent", ""):
+    if is_cli_tool(request):
         return chr(char_ord)
 
     code_point_hex = ord_to_hex(char_ord)
