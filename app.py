@@ -22,6 +22,7 @@ aliases = {
     "zws": ("zero-width-space", "Zero-width space"),
     "nd": ("en-dash", "–"),
     "md": ("em-dash", "—"),
+    "smartquotes": ("-double-quotation-mark", "Smart quotes"),
 }
 
 
