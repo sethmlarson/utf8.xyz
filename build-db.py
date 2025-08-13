@@ -32,7 +32,7 @@ CREATE TABLE chars (
 
 unicodedata = http.request(
     "GET",
-    f"https://www.unicode.org/Public/draft/UCD/ucd/UnicodeData.txt",
+    f"https://www.unicode.org/Public/draft/ucd/UnicodeData.txt",
     preload_content=False,
 )
 unicodedata.auto_close = False
